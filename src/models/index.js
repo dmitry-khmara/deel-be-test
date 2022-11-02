@@ -49,7 +49,33 @@ Contract.init(
   }
 );
 
-class Job extends Sequelize.Model { }
+function JobPaymentError(message) {
+  this.name = "JobPaymentError";
+  this.message = message;
+}
+
+JobPaymentError.prototype = Object.create(Error.prototype);
+
+class Job extends Sequelize.Model {
+  pay(client) {
+    if (client !== this.Contract.Client)
+      throw new JobPaymentError("Only the job's client can pay for the job");
+
+    if (this.paid)
+      throw new JobPaymentError("Job has already been paid for")
+
+    if (client.balance < this.price)
+      throw new JobPaymentError("Insufficient balance");
+
+    this.Contract.Client.balance -= this.price;
+    this.Contract.Contractor.balance += this.price;
+
+    this.paid = true;
+    this.paymentDate = new Date();
+  }
+
+
+}
 Job.init(
   {
     description: {
@@ -75,15 +101,16 @@ Job.init(
 );
 
 Profile.hasMany(Contract, { as: 'Contractor', foreignKey: 'ContractorId' })
-Contract.belongsTo(Profile, { as: 'Contractor' })
+Contract.Contractor = Contract.belongsTo(Profile, { as: 'Contractor' })
 Profile.hasMany(Contract, { as: 'Client', foreignKey: 'ClientId' })
-Contract.belongsTo(Profile, { as: 'Client' })
+Contract.Client = Contract.belongsTo(Profile, { as: 'Client' })
 Contract.hasMany(Job)
-Job.belongsTo(Contract)
+Job.Contract = Job.belongsTo(Contract)
 
 module.exports = {
   sequelize,
   Profile,
   Contract,
-  Job
+  Job,
+  JobPaymentError
 };
