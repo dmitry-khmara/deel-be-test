@@ -3,7 +3,28 @@ const getStorageConfig = require('./storageConfig');
 
 const sequelize = new Sequelize(getStorageConfig());
 
-class Profile extends Sequelize.Model { }
+function ClientDepositError(message) {
+  this.name = "ProfileDepositError";
+  this.message = message;
+}
+
+class Profile extends Sequelize.Model {
+
+  deposit(amount) {
+
+    if (amount <= 0)
+      throw new ClientDepositError("Cannot deposit a negative amount");
+
+    const totalOwed = this.ClientContracts.reduce(
+      (prev, cur) => prev +
+        cur.Jobs.reduce((prev, cur) => prev + cur.paid ? 0 : cur.price, 0), 0);
+
+    if (amount > totalOwed * 0.25)
+      throw new ClientDepositError("Cannot deposit more than 25% of owed for jobs");
+
+    this.balance += amount;
+  }
+}
 Profile.init(
   {
     firstName: {
@@ -100,9 +121,9 @@ Job.init(
   }
 );
 
-Profile.hasMany(Contract, { as: 'Contractor', foreignKey: 'ContractorId' })
+Profile.hasMany(Contract, { as: 'ContractorContracts', foreignKey: 'ContractorId' })
 Contract.Contractor = Contract.belongsTo(Profile, { as: 'Contractor' })
-Profile.hasMany(Contract, { as: 'Client', foreignKey: 'ClientId' })
+Profile.hasMany(Contract, { as: 'ClientContracts', foreignKey: 'ClientId' })
 Contract.Client = Contract.belongsTo(Profile, { as: 'Client' })
 Contract.hasMany(Job)
 Job.Contract = Job.belongsTo(Contract)
@@ -110,6 +131,7 @@ Job.Contract = Job.belongsTo(Contract)
 module.exports = {
   sequelize,
   Profile,
+  ClientDepositError,
   Contract,
   Job,
   JobPaymentError

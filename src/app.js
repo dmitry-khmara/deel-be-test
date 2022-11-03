@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const { sequelize } = require('./models')
 const contractsRoutes = require('./routes/contracts.routes');
 const jobsRoutes = require('./routes/jobs.routes');
+const balancesRoutes = require('./routes/balances.routes');
 
 const app = express();
 
@@ -12,5 +13,6 @@ app.set('models', sequelize.models)
 
 app.use('/contracts', contractsRoutes);
 app.use('/jobs', jobsRoutes);
+app.use('/balances', balancesRoutes);
 
 module.exports = app;
