@@ -1,6 +1,6 @@
 # DEEL BACKEND TASK
 
-  
+**Read my comments [here](COMMENTS.MD)**   
 
 💫 Welcome! 🎉
 
