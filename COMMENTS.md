@@ -14,6 +14,7 @@ The following controllers currently exists:
 - [balances.controller.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/src/controllers/balances.controller.js)
 - [contracts.controller.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/src/controllers/contracts.controller.js)
 - [jobs.controller.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/src/controllers/jobs.controller.js)
+- [admin.controller.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/src/controllers/admin.controller.js)
 
 ### 1.2. Routes
 
@@ -23,6 +24,7 @@ The following routers currently exist:
 - [balances.routes.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/src/routes/balances.routes.js)
 - [contracts.routes.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/src/routes/contracts.routes.js) 
 - [jobs.routes.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/src/routes/jobs.routes.js) 
+- [admin.routes.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/src/routes/admin.routes.js) 
 
 ### 1.3. Business Logic
 
@@ -56,6 +58,7 @@ Examples:
 - [balances.integration.test.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/test/balances.integration.test.js)
 - [jobs.integration.test.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/test/jobs.integration.test.js)
 - [contracts.integration.test.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/test/contracts.integration.test.js)
+- [admin.integration.test.js](https://github.com/dmitry-khmara/deel-be-test/blob/master/test/admin.integration.test.js)
 
 ## 3. Further points of improvement
 
